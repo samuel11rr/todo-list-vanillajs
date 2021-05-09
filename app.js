@@ -35,7 +35,9 @@ const actualizarLista = () => {
         <p class="lista-elemento ${ todo.realizado ? 'hecho' : '' }" onclick="marcarRealizado( ${todo.id} )">
           ${ todo.descripcion }
         </p>
-        <button type="button" class="btn btn-danger"> Borrar </button>
+        <button type="button" class="btn btn-danger" onclick="eliminarTarea( ${todo.id} )">
+          Borrar
+        </button>
       </div>
     `;
 
@@ -52,6 +54,15 @@ const marcarRealizado = (idTarea) => {
     }
   });
 
+  actualizarLista();
+}
+
+
+const eliminarTarea = (idTarea) => {
+  const index = todos.findIndex(todo => todo.id === idTarea);
+  
+  todos.splice(index, 1);
   console.log(todos);
+
   actualizarLista();
 }
