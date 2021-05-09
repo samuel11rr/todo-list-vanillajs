@@ -17,16 +17,14 @@ formulario.addEventListener('submit', (event) => {
     realizado: false
   }
 
+  todos.push( nuevoTodo );
+  
   inputText.value = '';
-
-  actualizarLista(nuevoTodo);
+  actualizarLista();
 });
 
 
-const actualizarLista = ( nuevoTodo ) => {
-  todos.push( nuevoTodo );
-  console.log(todos);
-  
+const actualizarLista = () => {
   lista.innerHTML = '';
 
   todos.forEach(todo => {
@@ -34,7 +32,9 @@ const actualizarLista = ( nuevoTodo ) => {
 
     li.innerHTML = `
       <div class="contenedor-elemento">
-        <p class="lista-elemento"> ${ todo.descripcion } </p>
+        <p class="lista-elemento ${ todo.realizado ? 'hecho' : '' }" onclick="marcarRealizado( ${todo.id} )">
+          ${ todo.descripcion }
+        </p>
         <button type="button" class="btn btn-danger"> Borrar </button>
       </div>
     `;
@@ -42,4 +42,16 @@ const actualizarLista = ( nuevoTodo ) => {
     li.classList.add('m-2');
     lista.appendChild(li);
   });
+}
+
+
+const marcarRealizado = (idTarea) => {
+  todos.map(todo => {
+    if (idTarea === todo.id) {
+      todo.realizado = !todo.realizado;
+    }
+  });
+
+  console.log(todos);
+  actualizarLista();
 }
