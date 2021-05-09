@@ -1,19 +1,18 @@
 const inputText = document.querySelector('input');
 const formulario = document.querySelector('form');
 const lista = document.querySelector('ul');
-const todos = [];
 
 
 formulario.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // if (inputText.value === '') {
-  //   return;
-  // }
+  if (inputText.value === '') {
+    return;
+  }
 
   const nuevoTodo = {
     id: new Date().getTime(),
-    descripcion: inputText.value || 'nueva tarea',
+    descripcion: inputText.value,
     realizado: false
   }
 
@@ -44,6 +43,8 @@ const actualizarLista = () => {
     li.classList.add('m-2');
     lista.appendChild(li);
   });
+
+  guardarDatos();
 }
 
 
@@ -62,7 +63,22 @@ const eliminarTarea = (idTarea) => {
   const index = todos.findIndex(todo => todo.id === idTarea);
   
   todos.splice(index, 1);
-  console.log(todos);
 
+  actualizarLista();
+}
+
+
+const guardarDatos = () => {
+  localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+const recuperarDatos = () => {
+  return JSON.parse(localStorage.getItem('todos'));
+}
+
+
+const todos = recuperarDatos() || [];
+
+if (todos.length > 0) {
   actualizarLista();
 }
